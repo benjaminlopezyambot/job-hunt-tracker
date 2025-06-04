@@ -37,13 +37,34 @@ export default function Home() {
     );
   };
 
-  const filteredJobs = jobs.filter((job) => {
-    const matchesStatus = filter === "all" || job.status === filter;
-    const matchesSearch =
-      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.position.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearch;
-  });
+  const filteredJobs = jobs
+    .filter((job) => {
+      const matchesStatus = filter === "all" || job.status === filter;
+      const matchesSearch =
+        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.position.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesStatus && matchesSearch;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "date-asc":
+          return (
+            new Date(a.dateApplied).getTime() -
+            new Date(b.dateApplied).getTime()
+          );
+        case "date-desc":
+          return (
+            new Date(b.dateApplied).getTime() -
+            new Date(a.dateApplied).getTime()
+          );
+        case "company-asc":
+          return a.company.localeCompare(b.company);
+        case "company-desc":
+          return b.company.localeCompare(a.company);
+        default:
+          return 0;
+      }
+    });
 
   return (
     <main className='max-w-3xl mx-auto p-6'>
