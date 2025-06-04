@@ -1,8 +1,7 @@
 "use client";
 
+import { JobStatus } from "@/types";
 import React, { useState } from "react";
-
-type JobStatus = "applied" | "interviewing" | "offer" | "rejected";
 
 type JobCardProps = {
   company: string;

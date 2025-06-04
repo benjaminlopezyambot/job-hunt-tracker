@@ -4,21 +4,15 @@ import React, { useState, useEffect } from "react";
 import { JobForm } from "../components/JobForm";
 import { JobCard } from "../components/JobCard";
 import { v4 as uuidv4 } from "uuid";
-
-type JobStatus = "applied" | "interviewing" | "offer" | "rejected" | "all";
-
-type Job = {
-  id: string;
-  company: string;
-  position: string;
-  status: Exclude<JobStatus, "all">;
-  dateApplied: string;
-};
+import { Job, JobStatus } from "@/types";
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filter, setFilter] = useState<JobStatus>("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState<
+    "date-desc" | "date-asc" | "company-asc" | "company-desc"
+  >("date-desc");
 
   useEffect(() => {
     const storedJobs = localStorage.getItem("jobs");
@@ -92,6 +86,22 @@ export default function Home() {
           />
         </div>
       </section>
+      <div>
+        <label htmlFor='sortBy' className='mr-2 font-medium'>
+          Sort by:
+        </label>
+        <select
+          id='sortBy'
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as any)}
+          className='border rounded p-2'
+        >
+          <option value='date-desc'>Date (Newest First)</option>
+          <option value='date-asc'>Date (Oldest First)</option>
+          <option value='company-asc'>Company (A-Z)</option>
+          <option value='company-desc'>Company (Z-A)</option>
+        </select>
+      </div>
 
       <section>
         {filteredJobs.length === 0 ? (
