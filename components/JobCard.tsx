@@ -8,6 +8,9 @@ type JobCardProps = {
   position: string;
   status: JobStatus;
   dateApplied: string;
+  priority?: "high" | "medium" | "low" | "";
+  workSetup?: "onsite" | "remote" | "hybrid" | "";
+  salary?: string;
   onDelete: () => void;
   onEdit: (updatedJob: Omit<JobCardProps, "onDelete" | "onEdit">) => void;
 };
@@ -17,6 +20,9 @@ export const JobCard: React.FC<JobCardProps> = ({
   position,
   status,
   dateApplied,
+  priority,
+  workSetup,
+  salary,
   onDelete,
   onEdit,
 }) => {
@@ -97,6 +103,9 @@ export const JobCard: React.FC<JobCardProps> = ({
       >
         Status: {status}
       </p>
+      <p className='text-sm text-gray-600'>Priority: {priority || "—"}</p>
+      <p className='text-sm text-gray-600'>Work Setup: {workSetup || "—"}</p>
+      <p className='text-sm text-gray-600'>Salary: {salary || "—"}</p>
 
       <div className='absolute top-2 right-2 flex gap-2'>
         <button
