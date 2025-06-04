@@ -5,6 +5,7 @@ import { JobForm } from "../components/JobForm";
 import { JobCard } from "../components/JobCard";
 import { v4 as uuidv4 } from "uuid";
 import { Job, JobStatus } from "@/types";
+import DnDJobBoard from "../components/DnDJobBoard";
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -13,6 +14,7 @@ export default function Home() {
   const [sortBy, setSortBy] = useState<
     "date-desc" | "date-asc" | "company-asc" | "company-desc"
   >("date-desc");
+  const [view, setView] = useState<"list" | "board">("list");
 
   useEffect(() => {
     const storedJobs = localStorage.getItem("jobs");
@@ -69,6 +71,14 @@ export default function Home() {
   return (
     <main className='max-w-3xl mx-auto p-6'>
       <h1 className='text-3xl font-bold mb-6'>Job Hunt Tracker</h1>
+      <div className='mb-4'>
+        <button
+          onClick={() => setView(view === "list" ? "board" : "list")}
+          className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
+        >
+          Switch to {view === "list" ? "Board View" : "List View"}
+        </button>
+      </div>
 
       <section className='mb-6'>
         <JobForm onAdd={addJob} />
@@ -124,22 +134,31 @@ export default function Home() {
         </select>
       </div>
 
-      <section>
-        {filteredJobs.length === 0 ? (
-          <p className='text-gray-500'>No jobs found for this status.</p>
-        ) : (
-          <div className='grid gap-4'>
-            {filteredJobs.map((job) => (
-              <JobCard
-                key={job.id}
-                {...job}
-                onDelete={() => deleteJob(job.id)}
-                onEdit={(updatedJob) => editJob(job.id, updatedJob)}
-              />
-            ))}
-          </div>
-        )}
-      </section>
+      {view === "list" ? (
+        <section>
+          {filteredJobs.length === 0 ? (
+            <p className='text-gray-500'>No jobs found for this status.</p>
+          ) : (
+            <div className='grid gap-4'>
+              {filteredJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  {...job}
+                  onDelete={() => deleteJob(job.id)}
+                  onEdit={(updatedJob) => editJob(job.id, updatedJob)}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      ) : (
+        <DnDJobBoard
+          jobs={jobs}
+          setJobs={setJobs}
+          onEdit={editJob}
+          onDelete={deleteJob}
+        />
+      )}
     </main>
   );
 }
