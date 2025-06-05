@@ -3,41 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { JobForm } from "../components/JobForm";
 import { JobCard } from "../components/JobCard";
-import { v4 as uuidv4 } from "uuid";
 import { Job, JobStatus } from "@/types";
 import DnDJobBoard from "../components/DnDJobBoard";
+import { useJobStore } from "@/store/useJobStore";
 
 export default function Home() {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const { jobs, fetchJobs, addJob, deleteJob, editJob } = useJobStore();
   const [filter, setFilter] = useState<JobStatus>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<
     "date-desc" | "date-asc" | "company-asc" | "company-desc"
   >("date-desc");
   const [view, setView] = useState<"list" | "board">("list");
-
   useEffect(() => {
-    const storedJobs = localStorage.getItem("jobs");
-    if (storedJobs) setJobs(JSON.parse(storedJobs));
+    fetchJobs();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("jobs", JSON.stringify(jobs));
-  }, [jobs]);
-
-  const addJob = (job: Omit<Job, "id">) => {
-    setJobs((prev) => [{ ...job, id: uuidv4() }, ...prev]);
-  };
-
-  const deleteJob = (id: string) => {
-    setJobs((prev) => prev.filter((job) => job.id !== id));
-  };
-
-  const editJob = (id: string, updatedJob: Omit<Job, "id">) => {
-    setJobs((prev) =>
-      prev.map((job) => (job.id === id ? { ...updatedJob, id } : job))
-    );
-  };
 
   const filteredJobs = jobs
     .filter((job) => {
@@ -154,7 +134,7 @@ export default function Home() {
       ) : (
         <DnDJobBoard
           jobs={jobs}
-          setJobs={setJobs}
+          setJobs={addJob}
           onEdit={editJob}
           onDelete={deleteJob}
         />
