@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import RootSessionLoader from "@/components/RootSessionLoader"; // or wherever you saved it
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,11 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <RootSessionLoader>{children}</RootSessionLoader>
       </body>
     </html>
   );

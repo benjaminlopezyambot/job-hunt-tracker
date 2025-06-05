@@ -10,7 +10,7 @@ A simple, modern web app built with **Next.js**, **TypeScript**, and **Tailwind 
 - Track status (e.g., Applied, Interview, Offer, Rejected)
 - Filter and sort applications
 - Light/Dark mode toggle
-- LocalStorage support (no account needed)
+- Supabase database
 - Responsive UI for mobile and desktop
 
 ---
@@ -22,6 +22,7 @@ A simple, modern web app built with **Next.js**, **TypeScript**, and **Tailwind 
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Zustand](https://zustand-demo.pmnd.rs/) (for state management)
 - [Vercel](https://vercel.com/) (for deployment)
+- [Supabase](https://supabase.com/) (for database)
 
 ---
 
@@ -32,3 +33,4 @@ git clone https://github.com/benjaminlopezyambot/job-hunt-tracker.git
 cd job-hunt-tracker
 npm install
 npm run dev
+```

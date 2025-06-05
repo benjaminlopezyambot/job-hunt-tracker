@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { JobForm } from "../components/JobForm";
-import { JobCard } from "../components/JobCard";
-import { Job, JobStatus } from "@/types";
-import DnDJobBoard from "../components/DnDJobBoard";
+import { JobForm } from "../../components/JobForm";
+import { JobCard } from "../../components/JobCard";
+import { JobStatus } from "@/types";
+import DnDJobBoard from "../../components/DnDJobBoard";
 import { useJobStore } from "@/store/useJobStore";
+import { LogoutButton } from "@/components/LogOutButton";
 
 export default function Home() {
   const { jobs, fetchJobs, addJob, deleteJob, editJob } = useJobStore();
@@ -50,6 +51,8 @@ export default function Home() {
 
   return (
     <main className='max-w-3xl mx-auto p-6'>
+      <LogoutButton />
+
       <h1 className='text-3xl font-bold mb-6'>Job Hunt Tracker</h1>
       <div className='mb-4'>
         <button
