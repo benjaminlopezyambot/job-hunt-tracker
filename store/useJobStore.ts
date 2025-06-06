@@ -18,19 +18,52 @@ export const useJobStore = create<JobStore>((set, get) => ({
 
   fetchJobs: async () => {
     set({ loading: true });
+
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error("User not found:", userError?.message);
+      set({ loading: false });
+      return;
+    }
+
     const { data, error } = await supabase
       .from("jobs")
       .select("*")
+      .eq("user_id", user.id)
       .order("dateApplied", { ascending: false });
+
     if (!error) set({ jobs: data as Job[] });
+    else console.error("Error fetching jobs:", error.message);
+
     set({ loading: false });
   },
 
   addJob: async (job) => {
-    const newJob = { ...job, id: uuidv4() };
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error("User not found:", userError?.message);
+      return;
+    }
+
+    const newJob = {
+      ...job,
+      id: uuidv4(),
+      user_id: user.id,
+    };
+
     const { error } = await supabase.from("jobs").insert(newJob);
     if (!error) {
       set({ jobs: [newJob, ...get().jobs] });
+    } else {
+      console.error("Error adding job:", error.message);
     }
   },
 
