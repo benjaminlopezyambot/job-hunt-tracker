@@ -1,36 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
-import { useUserStore } from "@/store/useUserStore";
 import { supabase } from "@/lib/supabase/supabaseClient";
+import { useUser } from "@/store/useUserStore";
+import { useEffect } from "react";
 
-export default function RootSessionLoader({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const setUser = useUserStore((state) => state.setUser);
+  const setUser = useUser((s) => s.setUser);
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user ?? null);
-    };
-
-    getUser();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, [supabase, setUser]);
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user ? { id: data.user.id, email: data.user.email } : null);
+    });
+  }, []);
 
   return <>{children}</>;
 }
