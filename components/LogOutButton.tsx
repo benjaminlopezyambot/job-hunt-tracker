@@ -1,6 +1,7 @@
 // components/LogoutButton.tsx
 "use client";
 import { supabase } from "@/lib/supabase/supabaseClient";
+import { Button } from "./ui/button";
 
 export const LogoutButton = () => {
   const logout = async () => {
@@ -8,5 +9,5 @@ export const LogoutButton = () => {
     window.location.href = "/login";
   };
 
-  return <button onClick={logout}>Logout</button>;
+  return <Button onClick={logout}>Logout</Button>;
 };

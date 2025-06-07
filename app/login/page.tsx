@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase/supabaseClient";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -67,108 +69,240 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-background px-4'>
-      {!isSignUp ? (
-        <>
-          {showForgotPassword ? (
-            <form
-              onSubmit={handleForgotPasswordSubmit}
-              className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
-            >
-              <input
-                type='email'
-                name='forgotEmail'
-                placeholder='Enter your email'
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-                required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-              />
-              <button
-                type='submit'
-                className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition'
+    <div className='min-h-screen flex items-center justify-center bg-background w-full'>
+      <div className='min-h-screen w-[50%] flex items-center justify-center bg-lime-50 px-4'>
+        {/* {!isSignUp ? (
+          <>
+            {showForgotPassword ? (
+              <form
+                onSubmit={handleForgotPasswordSubmit}
+                className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
               >
-                Send reset link
-              </button>
-              <button
-                type='button'
-                onClick={() => setShowForgotPassword(false)}
-                className='w-full text-sm text-blue-600 hover:underline'
+                <input
+                  type='email'
+                  name='forgotEmail'
+                  placeholder='Enter your email'
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                <button
+                  type='submit'
+                  className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition'
+                >
+                  Send reset link
+                </button>
+                <button
+                  type='button'
+                  onClick={() => setShowForgotPassword(false)}
+                  className='w-full text-sm text-blue-600 hover:underline'
+                >
+                  Back to login
+                </button>
+              </form>
+            ) : (
+              <form
+                onSubmit={handleLogin}
+                className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
               >
-                Back to login
-              </button>
-            </form>
-          ) : (
-            <form
-              onSubmit={handleLogin}
-              className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
-            >
-              <input
-                name='email'
-                type='email'
-                placeholder='Email'
-                required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-              />
-              <input
-                name='password'
-                type='password'
-                placeholder='Password'
-                required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-              />
-              <button
-                type='submit'
-                className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition'
-              >
-                Login
-              </button>
-              <button
-                type='button'
-                onClick={() => setShowForgotPassword(true)}
-                className='w-full text-sm text-blue-600 hover:underline'
-              >
-                Forgot password?
-              </button>
-            </form>
-          )}
-        </>
-      ) : (
-        <form
-          onSubmit={handleSignUp}
-          className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
-        >
-          <h2 className='text-2xl font-semibold text-center'>Sign Up</h2>
-          <input
-            name='email'
-            type='email'
-            placeholder='Email'
-            required
-            className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
-          />
-          <input
-            name='password'
-            type='password'
-            placeholder='Password'
-            required
-            className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
-          />
-          <button
-            type='submit'
-            className='w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition'
+                <input
+                  name='email'
+                  type='email'
+                  placeholder='Email'
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                <input
+                  name='password'
+                  type='password'
+                  placeholder='Password'
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                <Button
+                  variant='default'
+                  type='submit'
+                  className='w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition'
+                >
+                  Login
+                </Button>
+                <div className='flex flex-row  justify-end w-full'>
+                  <Button
+                    type='button'
+                    onClick={() => setIsSignUp(true)}
+                    className='w-full text-sm text-blue-600 hover:underline text-start'
+                  >
+                    Sign-up
+                  </Button>
+                  <Button
+                    type='button'
+                    onClick={() => setShowForgotPassword(true)}
+                    className='w-full text-sm text-blue-600 hover:underline text-end'
+                  >
+                    Forgot password?
+                  </Button>
+                </div>
+              </form>
+            )}
+          </>
+        ) : (
+          <form
+            onSubmit={handleSignUp}
+            className='max-w-md w-full p-6 bg-white rounded-lg shadow-md space-y-6'
           >
-            Sign Up
-          </button>
-
-          <button
-            type='button'
-            onClick={() => setIsSignUp(false)}
-            className='w-full text-center text-green-600 hover:underline'
+            <h2 className='text-2xl font-semibold text-center'>Sign Up</h2>
+            <input
+              name='email'
+              type='email'
+              placeholder='Email'
+              required
+              className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+            />
+            <input
+              name='password'
+              type='password'
+              placeholder='Password'
+              required
+              className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+            />
+            <Button
+              type='submit'
+              className='w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition'
+            >
+              Sign Up
+            </Button>
+            <Button
+              type='button'
+              onClick={() => setIsSignUp(false)}
+              className='w-full text-center text-green-600 hover:underline'
+            >
+              Already have an account? Login
+            </Button>
+          </form>
+        )} */}
+      </div>
+      <div className='min-h-screen w-[50%]  flex items-center justify-center  '>
+        {!isSignUp ? (
+          <>
+            {showForgotPassword ? (
+              <form
+                onSubmit={handleForgotPasswordSubmit}
+                className='max-w-md w-full p-6  space-y-6'
+              >
+                <input
+                  type='email'
+                  name='forgotEmail'
+                  placeholder='Enter your email'
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                <button
+                  type='submit'
+                  className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition'
+                >
+                  Send reset link
+                </button>
+                <button
+                  type='button'
+                  onClick={() => setShowForgotPassword(false)}
+                  className='w-full text-sm text-blue-600 hover:underline'
+                >
+                  Back to login
+                </button>
+              </form>
+            ) : (
+              <form
+                onSubmit={handleLogin}
+                className='max-w-md w-full p-6 space-y-2'
+              >
+                <Input
+                  name='email'
+                  type='email'
+                  placeholder='Email'
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500'
+                  autoComplete='off'
+                />
+                <Input
+                  name='password'
+                  type='password'
+                  placeholder='Password'
+                  required
+                  className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500'
+                />
+                <Button
+                  variant='default'
+                  type='submit'
+                  className='w-full bg-lime-700 text-white py-3 rounded-md hover:bg-lime-600 transition'
+                >
+                  Login
+                </Button>
+                <div className='flex flex-row justify-center'>
+                  <Button
+                    variant='ghost'
+                    type='button'
+                    onClick={() => setIsSignUp(true)}
+                    className='w-full text-sm text-lime-600 hover:underline'
+                  >
+                    Sign-up
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    type='button'
+                    onClick={() => setShowForgotPassword(true)}
+                    className='w-full text-sm text-lime-600 hover:underline'
+                  >
+                    Forgot password?
+                  </Button>
+                </div>
+                {/* <div className='flex items-center justify-between'>
+                <hr className='flex-grow border-gray-300' />
+                <span className='mx-2 text-gray-500'>or</span>
+                <hr className='flex-grow border-gray-300' />
+              </div> */}
+              </form>
+            )}
+          </>
+        ) : (
+          <form
+            onSubmit={handleSignUp}
+            className='max-w-md w-full p-6  space-y-6'
           >
-            Already have an account? Login
-          </button>
-        </form>
-      )}
+            <h2 className='text-2xl font-semibold text-center'>Sign Up</h2>
+            <input
+              name='email'
+              type='email'
+              placeholder='Email'
+              required
+              className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+            />
+            <input
+              name='password'
+              type='password'
+              placeholder='Password'
+              required
+              className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+            />
+            <Button
+              type='submit'
+              className='w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition'
+            >
+              Sign Up
+            </Button>
+            <Button
+              variant='ghost'
+              type='button'
+              onClick={() => setIsSignUp(false)}
+              className='w-full text-center text-green-600 hover:underline'
+            >
+              Already have an account? Login
+            </Button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }

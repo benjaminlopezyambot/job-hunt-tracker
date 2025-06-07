@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
@@ -22,10 +23,7 @@ export default function UpdatePassword() {
 
     try {
       // Re-authenticate session if needed (useful for reset links)
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
+      const { error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError) {
         alert("Session error: " + sessionError.message);
